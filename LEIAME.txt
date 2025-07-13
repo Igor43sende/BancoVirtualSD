@@ -16,10 +16,9 @@ Pré-requisitos:
 Compilação:
 ----------------------------------------
 
-Execute no terminal:
+Execute no terminal Windows:
 
-    chmod +x compile.sh
-    ./compile.sh
+    dir /S /B src\*.java > sources.txt
 
 Isso irá compilar os arquivos Java e gerar os .class na pasta /out.
 
@@ -29,8 +28,7 @@ Execução:
 
 Execute com:
 
-    chmod +x run.sh
-    ./run.sh
+    java -cp "lib/*;bin" view.Menu
 
 O sistema abrirá a interface de linha de comando para o usuário interagir com o banco.
 

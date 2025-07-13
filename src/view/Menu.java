@@ -1,83 +1,85 @@
-package view;
+package view; // Pacote onde esta classe está localizada
 
-import controller.Group;
-import java.util.List;
-import java.util.Scanner;
+import controller.Group; // Importa a classe Group do pacote controller
+import java.util.List; // Importa a interface List
+import java.util.Scanner; // Importa a classe Scanner para leitura de entradas do usuário
 
 public class Menu {
 
-    private static final Scanner scanner = new Scanner(System.in);
-    private static Group grupo;
-    private static String clienteLogado = null;
+    private static final Scanner scanner = new Scanner(System.in); // Scanner para ler entradas do console
+    private static Group grupo; // Objeto que representa a conexão/gerenciamento do grupo (sistema distribuído)
+    private static String clienteLogado = null; // Armazena o CPF do cliente atualmente logado (ou null se ninguém estiver logado)
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // Método principal que inicia o programa
         try {
-            grupo = new Group();
-            grupo.iniciar();
+            grupo = new Group(); // Instancia o objeto Group
+            grupo.iniciar(); // Inicializa o sistema distribuído
         } catch (Exception e) {
             System.err.println("Erro ao iniciar o sistema distribuído: " + e.getMessage());
-            return;
+            return; // Encerra o programa caso ocorra erro na inicialização
         }
 
-        int opcao;
+        int opcao; // Variável para armazenar a opção escolhida pelo usuário
         do {
+            // Exibe o menu principal
             System.out.println("\n=== Banco Virtual Distribuído ===");
             System.out.println("1 - Criar conta");
             System.out.println("2 - Login");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
+            opcao = Integer.parseInt(scanner.nextLine()); // Lê a opção digitada e converte para inteiro
 
             switch (opcao) {
-                case 1 -> criarConta();
-                case 2 -> login();
-                case 0 -> System.out.println("Encerrando o programa...");
-                default -> System.out.println("Opção inválida.");
+                case 1 -> criarConta(); // Chama o método para criar conta
+                case 2 -> login(); // Chama o método para login
+                case 0 -> System.out.println("Encerrando o programa..."); // Encerra
+                default -> System.out.println("Opção inválida."); // Caso digite algo diferente das opções acima
             }
 
-        } while (opcao != 0);
+        } while (opcao != 0); // Continua exibindo o menu até o usuário escolher sair
 
-        grupo.encerrar();
+        grupo.encerrar(); // Finaliza o sistema distribuído ao sair
     }
 
-    private static void criarConta() {
+    private static void criarConta() { // Método para criação de conta
         try {
             System.out.print("Nome: ");
-            String nome = scanner.nextLine();
+            String nome = scanner.nextLine(); // Lê o nome digitado
             System.out.print("CPF: ");
-            String cpf = scanner.nextLine();
+            String cpf = scanner.nextLine(); // Lê o CPF digitado
             System.out.print("Senha: ");
-            String senha = scanner.nextLine();
+            String senha = scanner.nextLine(); // Lê a senha digitada
 
-            grupo.requisitarCriacaoConta(nome, cpf, senha);
+            grupo.requisitarCriacaoConta(nome, cpf, senha); // Solicita ao Group a criação da conta
         } catch (Exception e) {
-            System.err.println("Erro ao criar conta: " + e.getMessage());
+            System.err.println("Erro ao criar conta: " + e.getMessage()); // Exibe erro caso algo dê errado
         }
     }
 
-    private static void login() {
+    private static void login() { // Método para autenticação do cliente
         System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = scanner.nextLine(); // Lê o CPF digitado
         System.out.print("Senha: ");
-        String senha = scanner.nextLine();
+        String senha = scanner.nextLine(); // Lê a senha digitada
 
         try {
-            boolean sucesso = grupo.requisitarLogin(cpf, senha);
+            boolean sucesso = grupo.requisitarLogin(cpf, senha); // Solicita login ao Group
             if (sucesso) {
-                clienteLogado = cpf;
+                clienteLogado = cpf; // Armazena o CPF do cliente logado
                 System.out.println("Login bem-sucedido!");
-                menuLogado();
+                menuLogado(); // Chama o menu exclusivo para cliente logado
             } else {
-                System.out.println("Login falhou. Verifique CPF e senha.");
+                System.out.println("Login falhou. Verifique CPF e senha."); // Caso login falhe
             }
         } catch (Exception e) {
-            System.err.println("Erro ao autenticar: " + e.getMessage());
+            System.err.println("Erro ao autenticar: " + e.getMessage()); // Exibe erro de exceção
         }
     }
 
-    private static void menuLogado() {
+    private static void menuLogado() { // Menu exibido somente para clientes logados
         int opcao;
         do {
+            // Exibe o menu do cliente logado
             System.out.println("\n=== Menu do Cliente ===");
             System.out.println("1 - Consultar saldo");
             System.out.println("2 - Transferência");
@@ -85,40 +87,40 @@ public class Menu {
             System.out.println("4 - Consultar montante total do banco");
             System.out.println("0 - Logout");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
+            opcao = Integer.parseInt(scanner.nextLine()); // Lê a opção
 
             switch (opcao) {
-                case 1 -> consultarSaldo();
-                case 2 -> transferencia();
-                case 3 -> verExtrato();
-                case 4 -> consultarMontante();
+                case 1 -> consultarSaldo(); // Consulta saldo
+                case 2 -> transferencia(); // Realiza transferência
+                case 3 -> verExtrato(); // Visualiza extrato
+                case 4 -> consultarMontante(); // Consulta o montante total do banco
                 case 0 -> {
-                    clienteLogado = null;
+                    clienteLogado = null; // Faz logout
                     System.out.println("Logout realizado.");
                 }
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opção inválida."); // Opção incorreta
             }
 
-        } while (clienteLogado != null);
+        } while (clienteLogado != null); // Continua no menu até o usuário deslogar
     }
 
-    private static void consultarSaldo() {
+    private static void consultarSaldo() { // Método para consultar saldo do cliente
         try {
-            double saldo = grupo.requisitarSaldo(clienteLogado);
-            System.out.printf("Saldo atual: R$ %.2f\n", saldo);
+            double saldo = grupo.requisitarSaldo(clienteLogado); // Pede o saldo ao Group
+            System.out.printf("Saldo atual: R$ %.2f\n", saldo); // Exibe saldo formatado
         } catch (Exception e) {
             System.err.println("Erro ao consultar saldo: " + e.getMessage());
         }
     }
 
-    private static void transferencia() {
+    private static void transferencia() { // Método para realizar transferência
         try {
             System.out.print("CPF do destinatário: ");
-            String destino = scanner.nextLine();
+            String destino = scanner.nextLine(); // Lê o CPF do destinatário
             System.out.print("Valor a transferir: ");
-            double valor = Double.parseDouble(scanner.nextLine());
+            double valor = Double.parseDouble(scanner.nextLine()); // Lê e converte o valor digitado
 
-            boolean ok = grupo.requisitarTransferencia(clienteLogado, destino, valor);
+            boolean ok = grupo.requisitarTransferencia(clienteLogado, destino, valor); // Solicita transferência ao Group
             if (ok) {
                 System.out.println("Transferência realizada com sucesso!");
             } else {
@@ -130,24 +132,24 @@ public class Menu {
         }
     }
 
-    private static void verExtrato() {
+    private static void verExtrato() { // Método para exibir extrato do cliente
         try {
-            List<String> extrato = grupo.requisitarExtrato(clienteLogado);
+            List<String> extrato = grupo.requisitarExtrato(clienteLogado); // Pede extrato ao Group
             System.out.println("\n=== Extrato ===");
             if (extrato.isEmpty()) {
-                System.out.println("Nenhuma movimentação.");
+                System.out.println("Nenhuma movimentação."); // Se não houver movimentações
             } else {
-                extrato.forEach(System.out::println);
+                extrato.forEach(System.out::println); // Exibe cada linha do extrato
             }
         } catch (Exception e) {
             System.err.println("Erro ao consultar extrato: " + e.getMessage());
         }
     }
 
-    private static void consultarMontante() {
+    private static void consultarMontante() { // Método para consultar montante total do banco
         try {
-            double total = grupo.requisitarMontanteBanco();
-            System.out.printf("Montante total do banco: R$ %.2f\n", total);
+            double total = grupo.requisitarMontanteBanco(); // Solicita montante ao Group
+            System.out.printf("Montante total do banco: R$ %.2f\n", total); // Exibe valor formatado
         } catch (Exception e) {
             System.err.println("Erro ao consultar montante: " + e.getMessage());
         }

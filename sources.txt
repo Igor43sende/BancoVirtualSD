@@ -1,0 +1,4 @@
+C:\Users\igorb\IdeaProjects\BancoVirtual\src\controller\Database.java
+C:\Users\igorb\IdeaProjects\BancoVirtual\src\controller\Group.java
+C:\Users\igorb\IdeaProjects\BancoVirtual\src\model\BankAccount.java
+C:\Users\igorb\IdeaProjects\BancoVirtual\src\view\Menu.java
