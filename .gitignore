@@ -1,29 +1,24 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+# Compilação Java
+*.class
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# IDEs
+.idea/
+*.iml
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Arquivo de persistência
+banco_estado.dat
 
-### VS Code ###
-.vscode/
+# Diretórios de saída
+/out/
+/build/
 
-### Mac OS ###
+# Arquivos temporários
+*.log
+*.tmp
+
+# Executáveis
+*.sh
+
+# Sistema operacional
 .DS_Store
+Thumbs.db

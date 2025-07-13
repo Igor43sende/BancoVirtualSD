@@ -1,0 +1,44 @@
+========================================
+BancoVirtual - Instruções de Execução
+========================================
+
+Sistema Distribuído de Banco Virtual usando JGroups
+Disciplina: Sistemas Distribuídos I - IFMG
+
+----------------------------------------
+Pré-requisitos:
+----------------------------------------
+- Java JDK 8+ instalado
+- Sistema compatível com POSIX (Linux, macOS ou Windows com WSL/Cygwin)
+- JGroups (já incluso em /lib)
+
+----------------------------------------
+Compilação:
+----------------------------------------
+
+Execute no terminal:
+
+    chmod +x compile.sh
+    ./compile.sh
+
+Isso irá compilar os arquivos Java e gerar os .class na pasta /out.
+
+----------------------------------------
+Execução:
+----------------------------------------
+
+Execute com:
+
+    chmod +x run.sh
+    ./run.sh
+
+O sistema abrirá a interface de linha de comando para o usuário interagir com o banco.
+
+----------------------------------------
+Arquivos:
+----------------------------------------
+
+- config.xml .......... Pilha de protocolos do JGroups
+- banco_estado.dat .... Arquivo de persistência de estado
+- src/ ................ Código-fonte (model, controller, view)
+- lib/ ................ Biblioteca JGroups
