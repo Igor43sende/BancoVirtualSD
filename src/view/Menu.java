@@ -1,22 +1,24 @@
-package view; // Pacote onde esta classe está localizada
+package view;
 
-import controller.Group; // Importa a classe Group do pacote controller
-import java.util.List; // Importa a interface List
-import java.util.Scanner; // Importa a classe Scanner para leitura de entradas do usuário
+import remote.RemoteBank;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.List;
+import java.util.Scanner;
 
 public class Menu {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static RemoteBank grupo; // Agora usando RMI
+    private static String clienteLogado = null;
 
-    private static final Scanner scanner = new Scanner(System.in); // Scanner para ler entradas do console
-    private static Group grupo; // Objeto que representa a conexão/gerenciamento do grupo (sistema distribuído)
-    private static String clienteLogado = null; // Armazena o CPF do cliente atualmente logado (ou null se ninguém estiver logado)
-
-    public static void main(String[] args) { // Método principal que inicia o programa
+    public static void main(String[] args) {
         try {
-            grupo = new Group(); // Instancia o objeto Group
-            grupo.iniciar(); // Inicializa o sistema distribuído
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            grupo = (RemoteBank) registry.lookup("BancoVirtual");
+            System.out.println("Conectado ao servidor RMI.");
         } catch (Exception e) {
             System.err.println("Erro ao iniciar o sistema distribuído: " + e.getMessage());
-            return; // Encerra o programa caso ocorra erro na inicialização
+            return;
         }
 
         int opcao; // Variável para armazenar a opção escolhida pelo usuário
@@ -37,8 +39,11 @@ public class Menu {
             }
 
         } while (opcao != 0); // Continua exibindo o menu até o usuário escolher sair
-
-        grupo.encerrar(); // Finaliza o sistema distribuído ao sair
+        try {
+            grupo.encerrar();
+        } catch (java.rmi.RemoteException e) {
+            System.err.println("Erro ao encerrar conexão: " + e.getMessage());
+        }
     }
 
     private static void criarConta() { // Método para criação de conta

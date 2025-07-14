@@ -8,35 +8,53 @@ Disciplina: Sistemas Distribuídos I - IFMG
 ----------------------------------------
 Pré-requisitos:
 ----------------------------------------
-- Java JDK 8+ instalado
-- Sistema compatível com POSIX (Linux, macOS ou Windows com WSL/Cygwin)
-- JGroups (já incluso em /lib)
+- Java JDK 8 ou superior instalado
+- Sistema compatível (Windows, Linux ou macOS)
+- Biblioteca JGroups (já incluída na pasta /lib)
 
 ----------------------------------------
-Compilação:
+Compilação e execução:
 ----------------------------------------
 
-Execute no terminal Windows:
+No Windows
+----------
+- Para compilar e rodar o servidor:
+    compile_e_executa_server.bat
 
-    dir /S /B src\*.java > sources.txt
+- Para compilar e rodar o cliente:
+    compile_e_executa_cliente.bat
 
-Isso irá compilar os arquivos Java e gerar os .class na pasta /out.
+No Linux ou macOS
+-----------------
+- Dê permissão de execução:
+    chmod +x compile_e_executa_server.sh
+    chmod +x compile_e_executa_cliente.sh
+
+- Para compilar e rodar o servidor:
+    ./compile_e_executa_server.sh
+
+- Para compilar e rodar o cliente:
+    ./compile_e_executa_cliente.sh
 
 ----------------------------------------
-Execução:
+Como funciona:
 ----------------------------------------
-
-Execute com:
-
-    java -cp "lib/*;bin" view.Menu
-
-O sistema abrirá a interface de linha de comando para o usuário interagir com o banco.
+Esses scripts:
+- Compilam todos os arquivos Java, incluindo o JGroups no classpath.
+- Geram os arquivos .class na pasta /out.
+- Executam diretamente o servidor (classe remote.BankServer) ou o cliente (classe view.Menu).
 
 ----------------------------------------
-Arquivos:
+Arquivos importantes:
 ----------------------------------------
-
 - config.xml .......... Pilha de protocolos do JGroups
 - banco_estado.dat .... Arquivo de persistência de estado
-- src/ ................ Código-fonte (model, controller, view)
-- lib/ ................ Biblioteca JGroups
+- src/ ................ Código-fonte (model, controller, remote, view)
+- lib/ ................ Biblioteca JGroups necessária para execução
+- compile_e_executa_server.* ... Scripts para compilar e rodar o servidor
+- compile_e_executa_cliente.* .. Scripts para compilar e rodar o cliente
+
+----------------------------------------
+Observação:
+----------------------------------------
+O sistema abre uma interface de linha de comando para interação com o usuário.
