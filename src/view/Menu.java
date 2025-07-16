@@ -13,7 +13,7 @@ public class Menu {
 
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Registry registry = LocateRegistry.getRegistry("172.22.70.26", 1099);
             grupo = (RemoteBank) registry.lookup("BancoVirtual");
             System.out.println("Conectado ao servidor RMI.");
         } catch (Exception e) {

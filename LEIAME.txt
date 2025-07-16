@@ -5,6 +5,7 @@ BancoVirtual - Instruções de Execução
 Sistema Distribuído de Banco Virtual usando JGroups
 Disciplina: Sistemas Distribuídos I - IFMG
 
+
 ----------------------------------------
 Pré-requisitos:
 ----------------------------------------
